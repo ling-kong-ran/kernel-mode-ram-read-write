@@ -54,6 +54,8 @@ namespace Uma {
 
         std::uintptr_t ReadModule(const std::wstring_view& name) const;
 
+        std::uintptr_t GetExeBaseAddr() const;
+
         template<typename T>
         T ReadMemory(const std::uintptr_t address);
 

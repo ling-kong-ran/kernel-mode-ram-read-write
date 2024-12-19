@@ -4,6 +4,7 @@
 */
 
 #include "Kmd.h"
+#include <stdio.h>
 
 namespace Kmd {
 	NTSTATUS Kmd::Create(PDRIVER_OBJECT driverObject) {

@@ -9,6 +9,7 @@ int main(void) {
         uma = new Uma::Uma();
 
         uma->Attach(L"Example.exe");
+       
     }
     catch (const std::exception& exeption) {
         std::cerr << exeption.what() << std::endl;

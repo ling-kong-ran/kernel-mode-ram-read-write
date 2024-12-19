@@ -4,6 +4,7 @@
 */
 
 #include "Uma.h"
+#include <iostream>
 
 namespace Uma {
     Uma::Uma() : _kmdHandle(nullptr, &CloseHandle), _processId(NULL) {
@@ -72,6 +73,24 @@ namespace Uma {
                     return reinterpret_cast<std::uintptr_t>(module.modBaseAddr);
                 }
             } while (Module32NextW(snapShot, &module));
+        }
+
+        CloseHandle(snapShot);
+        return NULL;
+    }
+
+    std::uintptr_t Uma::GetExeBaseAddr() const {
+        HANDLE snapShot = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE | TH32CS_SNAPMODULE32, _processId);
+        if (snapShot == INVALID_HANDLE_VALUE) {
+            std::cerr << "创建快照失败！" << std::endl;
+            return NULL;
+        }
+
+        MODULEENTRY32W module{ sizeof(module) };
+        if (Module32FirstW(snapShot, &module)) {
+            // 返回第一个模块，通常是 EXE 文件本身  
+            CloseHandle(snapShot);
+            return reinterpret_cast<std::uintptr_t>(module.modBaseAddr);
         }
 
         CloseHandle(snapShot);
